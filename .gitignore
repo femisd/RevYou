@@ -1,0 +1,6 @@
+# For production make sure to uncomment .env
+#Supper secret env file...
+#backend/.env
+
+backend/node_modules
+frontend/node_modules
