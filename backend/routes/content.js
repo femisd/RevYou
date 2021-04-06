@@ -6,7 +6,7 @@ const contentModel = require('../models/content');
 router.get('/', async (req, res) => {
     try {
         const content = await contentModel.find()
-        res.json(content)
+        res.status(200).json(content)
     } catch (err) {
         // RIP... server has died
         res.status(500).json({ message: err.message })
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 
 // Getting one content
 router.get('/:id', getContent, async (req, res) => {
-    res.json(res.content)
+    res.status(200).json(res.content)
 });
 
 // Creating new content
@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
 
     try {
         const newContent = await content.save();
-        res.status(201).json(newContent)
+        res.status(200).json(newContent)
     } catch (err) {
         // Failed because of bad data.
         res.status(400).json({ message: err.message })
@@ -51,7 +51,7 @@ router.patch('/:id', getContent, async (req, res) => {
 
     try {
         const updatedContent = await res.content.save()
-        res.json(updatedContent)
+        res.status(200).json(updatedContent)
     } catch (err) {
         res.status(400).json({message: err.message})
     }
@@ -61,7 +61,7 @@ router.patch('/:id', getContent, async (req, res) => {
 router.delete('/:id', getContent, async (req, res) => {
     try {
         await res.content.remove()
-        res.json({ message: 'Deleted content' })
+        res.status(200).json({ message: 'Deleted content' })
     } catch (err) {
         res.status(500).json({ message: err.message })
     }
