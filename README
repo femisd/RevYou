@@ -1,1 +1,13 @@
-Welcome to our project
+# HOW TO RUN
+
+1. On VS CODE Open 2 Terminals
+
+2. On one of them change directory to `frontend` and to `backend` on the other one.
+
+3. Type `npm i` in both of them to install all node dependencies.
+
+4. If you are using a local mongodb database make sure to have a database with the name `web-app-db` or change the database address in the .env file in your backend folder.
+
+5. Type `npm run dev` in the terminal with the backend directory open to start the backend.
+
+6. Type `npm start` in the terminal with the frontend directory open to start the frontend.
