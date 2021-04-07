@@ -25,7 +25,8 @@ router.post('/', async (req, res) => {
         userId: req.body.userId,
         username: req.body.username,
         contentTitle: req.body.contentTitle,
-        contentBody: req.body.contentBody
+        contentBody: req.body.contentBody,
+        imageLink: req.body.imageLink
     });
 
     try {
@@ -47,6 +48,10 @@ router.patch('/:id', getContent, async (req, res) => {
 
     if (req.body.contentBody != null) {
         res.content.contentBody = req.body.contentBody
+    }
+
+    if (req.body.imageLink != null) {
+        res.content.imageLink = req.body.imageLink
     }
 
     try {

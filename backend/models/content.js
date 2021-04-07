@@ -21,6 +21,11 @@ const contentSchema = new mongoose.Schema({
         required: true
     },
 
+    imageLink: {
+        type: String,
+        required: false
+    },
+
     postDate: {
         type: Date,
         required: true,
