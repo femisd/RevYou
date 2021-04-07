@@ -6,7 +6,7 @@
 
 3. Type `npm i` in both of them to install all node dependencies.
 
-4. If you are using a local mongodb database make sure to have a database with the name `web-app-db` or change the database address in the .env file in your backend folder.
+4. If you are using a local mongodb database make sure to edit the .env file in `/backend` else just use the hosted database address.
 
 5. Type `npm run dev` in the terminal with the backend directory open to start the backend.
 

@@ -13,12 +13,25 @@ Content-Type: application/json
     "userId": -1,
     "username": "System",
     "contentTitle": "Test ✅",
-    "contentBody": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque error repudiandae fuga?"
+    "contentBody": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi."
 }
 
 ###
 
-DELETE http://localhost:4000/content/606c8dd0199fd920709ff619
+POST http://localhost:4000/content
+Content-Type: application/json
+
+{
+    "userId": -1,
+    "username": "System",
+    "contentTitle": "Hello World",
+    "contentBody": "Welcome! We hope you enjoy your stay! 👋",
+    "imageLink": "https://static.wixstatic.com/media/e5527e_e41291e94a7946968747654b4a944967~mv2.gif"
+}
+
+###
+
+DELETE http://localhost:4000/content/606dc4cfbcee843ba07f7720
 
 
 ###
