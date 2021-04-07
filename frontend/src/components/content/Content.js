@@ -83,7 +83,7 @@ function Content() {
     }
 
     return (
-        <div>
+        <div style={{paddingTop: "60px" }}>
             <Rodal visible={modalVisible} onClose={() => hide()} animation="rotate" width={900} height={700}>
                 <div>
 
@@ -102,7 +102,7 @@ function Content() {
                         <textarea
                             value={contentBody}
                             className="post-text-area"
-                            rows="30"
+                            rows="16"
                             cols="100"
                             maxlength="2000"
                             onChange={e => setContentBody(e.target.value)}
