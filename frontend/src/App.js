@@ -2,6 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Content from './components/content/Content';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import AuthenticationButton from './components/authentication/authentication-button';
 
 function App() {
   return (
@@ -24,9 +25,7 @@ function App() {
               </NavDropdown>
             </Nav>
             <Nav>
-              <Navbar.Text>
-                Signed in as: <a href="#login">Guest</a>
-              </Navbar.Text>
+            <AuthenticationButton />
             </Nav>
           </Navbar.Collapse>
         </Navbar>
