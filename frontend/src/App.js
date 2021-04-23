@@ -29,6 +29,7 @@ function App() {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
+        <hr className="nav-line" />
       </div>
 
 
