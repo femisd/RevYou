@@ -30,6 +30,12 @@ const contentSchema = new mongoose.Schema({
         type: Date,
         required: true,
         default: Date.now
+    },
+
+    likes: {
+        type: Number,
+        required: true,
+        default: 1
     }
 });
 

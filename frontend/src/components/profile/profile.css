@@ -1,0 +1,82 @@
+.content-container {
+    margin: 1%;
+    width: 65rem;
+    height: 35rem;
+    display: inline-block;
+    position: relative;
+
+    border: 1px solid white;
+    border-radius: 15px;
+    padding: 1%;
+
+    text-align: center;
+    background-color: white;
+    box-shadow: 7px 7px 7px 0px rgba(35, 35, 43, 0.8);
+}
+
+.date-span{
+    position: absolute;
+    right: 2%;
+    bottom: 2%;
+}
+
+.content-img{
+    margin: 1%;
+    width: 60%;
+    height: 60%;
+    border-radius: 3px;
+    margin-bottom: 15%;
+}
+
+.new-post-btn{
+    color: white;
+    font-weight: bold;
+    display: table-cell;
+    vertical-align: middle;
+    padding: 20px 25px;
+    margin: 15px;
+    background-color: rgb(26, 148, 87);
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    border-radius: 45px;
+    cursor: pointer;
+    box-shadow: 2px 2px 2px 0px rgba(35, 35, 43, 0.8);
+
+}
+
+.post-input-field{
+    margin: 20px;
+    width: 80%;
+    font-size: large;
+    padding: 10px;
+    border-radius: 15px;
+    border: 1px solid #999999;
+
+}
+
+.post-text-area{
+    width: 80%;
+    padding: 10px;
+    font-size: medium;
+    border-radius: 15px;
+    border: 1px solid #999999;
+
+
+
+}
+
+.post-submit{
+    font-weight: bold;
+    color: white;
+    border: none;
+    background-color: rgb(26, 148, 87);
+    box-shadow: 2px 2px 2px 0px rgba(35, 35, 43, 0.8);
+    width: 50%;
+    padding: 20px 5px;
+    border-radius: 45px;
+    text-decoration: none;
+    cursor: pointer;
+
+}

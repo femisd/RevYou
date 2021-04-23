@@ -3,39 +3,56 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Content from './components/content/Content';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import AuthenticationButton from './components/authentication/authentication-button';
+import Profile from "./components/profile/profile";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
+    <Router>
+      <div className="App">
 
-      <div>
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
-          <Navbar.Brand href="#home">WEB-APP</Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="mr-auto">
-              <Nav.Link href="#">Nav Link</Nav.Link>
-              <Nav.Link href="#">Nav Link</Nav.Link>
-              <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-            <Nav>
-            <AuthenticationButton />
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
-        <hr className="nav-line" />
+        <div>
+          <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
+            <Navbar.Brand href="/">WEB-APP</Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="mr-auto">
+                <Nav.Link href="#">Nav Link</Nav.Link>
+                <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+                  <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+                </NavDropdown>
+              </Nav>
+              <Nav>
+                <Nav.Link href="/profile"><img className="nav-profile-pic" src="https://www.greekpaints.com/wp-content/uploads/2017/12/profile-photo-placeholder.png" alt="prof" /></Nav.Link>
+                <AuthenticationButton />
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
+          <hr className="nav-line" />
+        </div>
+
+        <Switch>
+          <Route path="/profile">
+            <Profile />
+          </Route>
+          <Route path="/">
+            <Content />
+          </Route>
+
+        </Switch>
+
       </div>
 
+    </Router>
 
-
-      <Content />
-    </div>
   );
 }
 

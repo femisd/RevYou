@@ -143,6 +143,7 @@ function Content() {
                         {post.imageLink ? <img className="content-img" src={post.imageLink} alt="image"/> : null}
                         {/* TODO: convert to readable date formatter */}
                         <span className="date-span">{post.postDate}</span>
+                        {/* <h2>{post.likes}</h2> */}
                     </div>
                 </div>)
             )}
