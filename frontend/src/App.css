@@ -5,10 +5,17 @@
   height: 100%;
   min-height: 100%;
   padding-bottom: 60px;
+}
 
+.nav-line {
 	background: linear-gradient(-90deg, #f35a5a, #2153f5, #f35a5a);
 	background-size: 400% 400%;
 	animation: gradient 13s ease infinite;
+  height: 65px;
+  margin: 0;
+  min-width: 100%;
+  z-index: 1;
+  position: fixed;
 }
 
 .App-logo {

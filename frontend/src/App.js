@@ -22,7 +22,6 @@ function App() {
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="mr-auto">
-                <Nav.Link href="/profile">Profile</Nav.Link>
                 <Nav.Link href="#">Nav Link</Nav.Link>
                 <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
                   <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -32,23 +31,24 @@ function App() {
                 </NavDropdown>
               </Nav>
               <Nav>
-                <Nav.Link href="/profile"><img className="nav-profile-pic" src="https://www.greekpaints.com/wp-content/uploads/2017/12/profile-photo-placeholder.png" alt="prof"/></Nav.Link>
+                <Nav.Link href="/profile"><img className="nav-profile-pic" src="https://www.greekpaints.com/wp-content/uploads/2017/12/profile-photo-placeholder.png" alt="prof" /></Nav.Link>
                 <AuthenticationButton />
               </Nav>
             </Navbar.Collapse>
           </Navbar>
+          <hr className="nav-line" />
         </div>
 
-      <Switch>
-        <Route path="/profile">
-          <Profile />
-        </Route>
-        <Route path="/">
-          <Content />
-        </Route>
+        <Switch>
+          <Route path="/profile">
+            <Profile />
+          </Route>
+          <Route path="/">
+            <Content />
+          </Route>
 
-      </Switch>
-      
+        </Switch>
+
       </div>
 
     </Router>
