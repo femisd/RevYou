@@ -31,7 +31,7 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:4000/content/606e37d07482c020ec97cbb8
+DELETE http://localhost:4000/content/6070639061b3c10c1463b9cf
 
 
 ###
