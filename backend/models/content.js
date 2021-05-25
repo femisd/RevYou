@@ -35,7 +35,7 @@ const contentSchema = new mongoose.Schema({
     likes: {
         type: Number,
         required: true,
-        default: 1
+        default: 0
     }
 });
 

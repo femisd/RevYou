@@ -4,15 +4,34 @@
     height: 45rem;
     display: inline-block;
     position: relative;
+    background-color: #e0e0e0;
 
-    border: 1px solid rgb(184, 184, 184);
     border-radius: 15px;
     padding: 1%;
 
     text-align: center;
-    background-color: white;
-    box-shadow: 7px 7px 7px 0px rgba(35, 35, 43, 0.8);
     overflow: hidden;
+    margin: 0;
+
+}
+
+.container-border{
+    margin-bottom: 20px;
+    width: 65.3rem;
+    height: 45.3rem;
+    border-radius: 15px;
+    /* background: linear-gradient(-90deg, #f35a5a, #2153f5, #f35a5a);
+	background-size: 400% 400%;
+	animation: gradient 13s ease infinite; */
+
+    box-shadow: 20px 20px 60px #bebebec0,
+                -20px -20px 60px #ffffff;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align: center;
+    align-self: center;
 }
 
 .date-span{
@@ -79,4 +98,16 @@
     text-decoration: none;
     cursor: pointer;
 
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
 }
