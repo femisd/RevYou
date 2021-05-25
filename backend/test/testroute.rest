@@ -36,9 +36,10 @@ DELETE http://localhost:4000/content/6070639061b3c10c1463b9cf
 
 ###
 
-PATCH  http://localhost:4000/content/606c8d77199fd920709ff618
+PATCH  http://localhost:4000/content/6081b64d8f3c3022a8b1c243
 Content-Type: application/json
 
 {
-    "contentBody": "Welcome! We hope you enjoy your stay!👋"
+    "likes": 4,
+    "likedByUsers": ["-1"]
 }

@@ -3,6 +3,7 @@ import Axios from "axios";
 import './Content.css'
 import Rodal from 'rodal';
 import 'rodal/lib/rodal.css';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function Content() {
     // content state from fetch
@@ -18,6 +19,8 @@ function Content() {
     const [contentTitle, setContentTitle] = useState("");
     const [contentBody, setContentBody] = useState("");
     const [imageLink, setImageLink] = useState(null);
+
+    const { user, isAuthenticated, isLoading } = useAuth0();
 
 
 
@@ -44,6 +47,12 @@ function Content() {
         getAllContent();
         console.log(content)
     }, [])
+
+    useEffect(() => {
+        if (!isLoading){
+            console.log("userID: ", user.sub)
+        }
+    }, [isAuthenticated])
 
 
     const show = () => setModalVisible(true);
@@ -81,23 +90,46 @@ function Content() {
     }
 
 
-    const likePost = (id, likes, index) => {
-        Axios.patch(`${SERVER_URL}/content/${id}`, { likes: likes + 1 }, {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-            .then(res => {
-                console.log(res);
-                if (res.status === 200) {
-                    console.log("index", index)
-                    setContent(content => ([...content, content[index].likes++]))
+    const likePost = (id, likes, index, likedByUsers) => {
+        if (isAuthenticated && !isLoading){
 
+            let updatedLikedByUsers = likedByUsers;
+            let likeModifier = 0
+
+
+            if(!likedByUsers.includes(user.sub)){
+                updatedLikedByUsers = [...likedByUsers, user.sub];
+                likeModifier = 1;
+                console.log("like added")
+            } else{
+                console.log("should it remove?", likedByUsers.includes(user.sub))
+                console.log("like remove", likedByUsers)
+                updatedLikedByUsers = likedByUsers.filter(id => id !== user.sub)
+                console.log("should have removed now", updatedLikedByUsers)
+                likeModifier = -1;
+            }
+
+            console.log(likeModifier, updatedLikedByUsers)
+
+            Axios.patch(`${SERVER_URL}/content/${id}`, { likes: likes + likeModifier, likedByUsers: updatedLikedByUsers }, {
+                headers: {
+                    "Content-Type": "application/json"
                 }
             })
-            .catch(error => {
-                console.log(error.response)
-            });;
+                .then(res => {
+                    console.log(res);
+                    if (res.status === 200) {
+                        console.log("old", likedByUsers)
+                        console.log("new", updatedLikedByUsers)
+                        setContent(content => ([...content, content[index].likes += likeModifier]))
+                        setContent(content => ([...content, content[index].likedByUsers = updatedLikedByUsers]))
+    
+                    }
+                })
+                .catch(error => {
+                    console.log(error.response)
+                });
+        }
     }
 
 
@@ -159,7 +191,7 @@ function Content() {
                             {/* TODO: add link to user profile once user db is setup */}
                             <span>by: </span> <a href="">{post.username}</a>
 
-                            <h2><span onClick={() => likePost(post._id, post.likes, index)}>❤️</span> {post.likes}</h2>
+                            <h2><span onClick={() => likePost(post._id, post.likes, index, post.likedByUsers)}>❤️</span> {post.likes}</h2>
 
 
                             <p>
@@ -174,7 +206,7 @@ function Content() {
                 </div>)
             )}
 
-            <div className="new-post-btn" onClick={() => show()}>📝 CREATE NEW POST</div>
+            { isAuthenticated ? <div className="new-post-btn" onClick={() => show()}>📝 CREATE NEW POST</div> : null}
         </div>
     );
 

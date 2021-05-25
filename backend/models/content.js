@@ -36,6 +36,12 @@ const contentSchema = new mongoose.Schema({
         type: Number,
         required: true,
         default: 0
+    },
+
+    likedByUsers: {
+        type: Array,
+        required: true,
+        default: []
     }
 });
 
