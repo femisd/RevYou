@@ -35,6 +35,10 @@
     align-self: center;
 }
 
+.like-btn{
+    cursor: pointer;
+}
+
 .date-span{
     position: absolute;
     right: 2%;

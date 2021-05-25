@@ -58,6 +58,10 @@ router.patch('/:id', getContent, async (req, res) => {
         res.content.likes = req.body.likes
     }
 
+    if (req.body.likedByUsers != null){ 
+        res.content.likedByUsers = req.body.likedByUsers
+    }
+
     try {
         const updatedContent = await res.content.save()
         res.status(200).json(updatedContent)
