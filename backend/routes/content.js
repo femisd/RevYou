@@ -54,6 +54,10 @@ router.patch('/:id', getContent, async (req, res) => {
         res.content.imageLink = req.body.imageLink
     }
 
+    if (req.body.likes != null) {
+        res.content.likes = req.body.likes
+    }
+
     try {
         const updatedContent = await res.content.save()
         res.status(200).json(updatedContent)

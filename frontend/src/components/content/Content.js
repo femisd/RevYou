@@ -78,12 +78,32 @@ function Content() {
             .catch(error => {
                 console.log(error.response)
             });;
-
-
     }
 
+
+    const likePost = (id, likes, index) => {
+        Axios.patch(`${SERVER_URL}/content/${id}`, { likes: likes + 1 }, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(res => {
+                console.log(res);
+                if (res.status === 200) {
+                    console.log("index", index)
+                    setContent(content => ([...content, content[index].likes++]))
+
+                }
+            })
+            .catch(error => {
+                console.log(error.response)
+            });;
+    }
+
+
+
     return (
-        <div style={{paddingTop: "60px" }}>
+    <div style={{ display: "flex", justifyItems: 'center', flexFlow: "column", paddingTop: "80px" }}>
             <Rodal visible={modalVisible} onClose={() => hide()} animation="rotate" width={900} height={700}>
                 <div>
 
@@ -131,19 +151,25 @@ function Content() {
             </Rodal>
 
             {content.map((post, index) => (
-                <div className="content-container">
-                    {/* main content */}
-                    <div>
-                        <h2>{post.contentTitle}</h2>
-                        {/* TODO: add link to user profile once user db is setup */}
-                        <span>by: </span> <a href="">{post.username}</a>
-                        <p>
-                            {post.contentBody}
-                        </p>
-                        {post.imageLink ? <img className="content-img" src={post.imageLink} alt="image"/> : null}
-                        {/* TODO: convert to readable date formatter */}
-                        <span className="date-span">{post.postDate}</span>
-                        {/* <h2>{post.likes}</h2> */}
+                <div className="container-border">
+                    <div className="content-container">
+                        {/* main content */}
+                        <div>
+                            <h2>{post.contentTitle}</h2>
+                            {/* TODO: add link to user profile once user db is setup */}
+                            <span>by: </span> <a href="">{post.username}</a>
+
+                            <h2><span onClick={() => likePost(post._id, post.likes, index)}>❤️</span> {post.likes}</h2>
+
+
+                            <p>
+                                {post.contentBody}
+                            </p>
+                            {post.imageLink ? <img className="content-img" src={post.imageLink} alt="image" /> : null}
+                            {/* TODO: convert to readable date formatter */}
+                            <span className="date-span">{post.postDate}</span>
+                            
+                        </div>
                     </div>
                 </div>)
             )}
