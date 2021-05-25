@@ -158,14 +158,17 @@ function Content() {
                             <h2>{post.contentTitle}</h2>
                             {/* TODO: add link to user profile once user db is setup */}
                             <span>by: </span> <a href="">{post.username}</a>
+
+                            <h2><span onClick={() => likePost(post._id, post.likes, index)}>❤️</span> {post.likes}</h2>
+
+
                             <p>
                                 {post.contentBody}
                             </p>
                             {post.imageLink ? <img className="content-img" src={post.imageLink} alt="image" /> : null}
                             {/* TODO: convert to readable date formatter */}
                             <span className="date-span">{post.postDate}</span>
-                            <h2 onClick={() => likePost(post._id, post.likes, index)}>❤️</h2>
-                            <h2>{post.likes}</h2>
+                            
                         </div>
                     </div>
                 </div>)
