@@ -13,8 +13,8 @@ function Content() {
 
     // Form states
     // Use defaults until user database is implemented
-    const [userId, setUserId] = useState(-2);
-    const [userName, setUserName] = useState("Guest");
+    const [userId, setUserId] = useState();
+    const [userName, setUserName] = useState();
 
     const [contentTitle, setContentTitle] = useState("");
     const [contentBody, setContentBody] = useState("");
@@ -50,7 +50,10 @@ function Content() {
 
     useEffect(() => {
         if (!isLoading){
-            console.log("userID: ", user.sub)
+            if (isAuthenticated){
+                setUserId(user.sub)
+                setUserName(user.nickname)
+            }
         }
     }, [isAuthenticated])
 
@@ -58,7 +61,9 @@ function Content() {
     const show = () => setModalVisible(true);
     const hide = () => setModalVisible(false);
 
-    const postContent = () => {
+    const postContent = (event) => {
+        // event.preventDefault();
+        hide();
         let newContent = {
             userId: userId,
             username: userName,
@@ -97,14 +102,14 @@ function Content() {
             let likeModifier = 0
 
 
-            if(!likedByUsers.includes(user.sub)){
-                updatedLikedByUsers = [...likedByUsers, user.sub];
+            if(!likedByUsers.includes(userId)){
+                updatedLikedByUsers = [...likedByUsers, userId];
                 likeModifier = 1;
                 console.log("like added")
             } else{
-                console.log("should it remove?", likedByUsers.includes(user.sub))
+                console.log("should it remove?", likedByUsers.includes(userId))
                 console.log("like remove", likedByUsers)
-                updatedLikedByUsers = likedByUsers.filter(id => id !== user.sub)
+                updatedLikedByUsers = likedByUsers.filter(id => id !== userId)
                 console.log("should have removed now", updatedLikedByUsers)
                 likeModifier = -1;
             }
@@ -132,6 +137,23 @@ function Content() {
         }
     }
 
+    const likeButtonRenderer = (userList) => {
+        let button = null;
+        if (!isLoading && isAuthenticated){
+            console.log("btn users", userList)
+            if (userList){
+                if (userList.includes(userId)){
+                    button = <span className="like-btn">❤️</span>
+                } else {
+                    button = <span className="like-btn">🤍</span>
+                }
+            }
+        }
+        
+        return button;
+
+    }
+
 
 
     return (
@@ -139,7 +161,7 @@ function Content() {
             <Rodal visible={modalVisible} onClose={() => hide()} animation="rotate" width={900} height={700}>
                 <div>
 
-                    <form onSubmit={() => postContent()}>
+                    <form onSubmit={postContent}>
                         <input
                             className="post-input-field"
                             value={contentTitle}
@@ -191,8 +213,7 @@ function Content() {
                             {/* TODO: add link to user profile once user db is setup */}
                             <span>by: </span> <a href="">{post.username}</a>
 
-                            <h2><span onClick={() => likePost(post._id, post.likes, index, post.likedByUsers)}>❤️</span> {post.likes}</h2>
-
+                            <h2> <span onClick={() => likePost(post._id, post.likes, index, post.likedByUsers)}>{likeButtonRenderer(post.likedByUsers)}</span> {post.likes}</h2>
 
                             <p>
                                 {post.contentBody}
