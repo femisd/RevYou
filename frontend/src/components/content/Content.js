@@ -31,6 +31,8 @@ function Content(prop) {
     const [contentTitle, setContentTitle] = useState("");
     const [contentBody, setContentBody] = useState("");
     const [imageLink, setImageLink] = useState(null);
+    const [postCategory, setPostCategory] = useState("Cat");
+
     // const [NewCategoryContent,setNewContent] = useState("Category");
 
     const { user, isAuthenticated, isLoading } = useAuth0();
@@ -85,7 +87,8 @@ function Content(prop) {
             userId: userId,
             username: userName,
             contentTitle: contentTitle,
-            contentBody: contentBody
+            contentBody: contentBody,
+            contentCategory: postCategory
         }
         if (imageLink !== null && imageLink !== "") {
             newContent.imageLink = imageLink;
@@ -171,6 +174,9 @@ function Content(prop) {
 
     }
 
+    function selectDropDown(e){
+        setPostCategory(e.target.value)
+    }
 
 
     return (
@@ -214,6 +220,19 @@ function Content(prop) {
                             name="imageLink"
                         />
                         <br />
+                                    
+                        <select
+                            className="post-input-field"
+                            onChange = {selectDropDown}
+                            value = {postCategory}
+                        >
+                            <option  value="Cat">Cat</option>
+                            <option  value="Dog">Dog</option>
+                            <option  value="Food">Food</option>
+                        </select>
+
+                        <br />        
+
 
                         <input className="post-submit" type="submit" value="PUBLISH" />
 
@@ -231,7 +250,7 @@ function Content(prop) {
                             <span>by: </span> <a href="">{post.username}</a>
 
                             <h2> <span onClick={() => likePost(post._id, post.likes, index, post.likedByUsers)}>{likeButtonRenderer(post.likedByUsers)}</span> {post.likes}</h2>
-
+                            <h3>Content Category: {post.contentCategory}</h3>
                             <p>
                                 {post.contentBody}
                             </p>

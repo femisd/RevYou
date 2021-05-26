@@ -43,7 +43,8 @@ router.post('/', async (req, res) => {
         username: req.body.username,
         contentTitle: req.body.contentTitle,
         contentBody: req.body.contentBody,
-        imageLink: req.body.imageLink
+        imageLink: req.body.imageLink,
+        contentCategory: req.body.contentCategory
     });
 
     try {
