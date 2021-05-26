@@ -5,7 +5,19 @@ import Rodal from 'rodal';
 import 'rodal/lib/rodal.css';
 import { useAuth0 } from "@auth0/auth0-react";
 
-function Content() {
+export var setSpecificCategory = (e,data) => {
+        
+        e.preventDefault();
+        e.persist()
+        var tempcat= e.currentTarget.value
+        //  console.log("name is  ", tempcat)
+        //  console.log(e.target.value)
+         console.log(data)
+        this.setNewContent(data)
+        
+    };
+
+function Content(prop) {
     // content state from fetch
     const [content, setContent] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
@@ -19,6 +31,9 @@ function Content() {
     const [contentTitle, setContentTitle] = useState("");
     const [contentBody, setContentBody] = useState("");
     const [imageLink, setImageLink] = useState(null);
+    const [postCategory, setPostCategory] = useState("Cat");
+
+    // const [NewCategoryContent,setNewContent] = useState("Category");
 
     const { user, isAuthenticated, isLoading } = useAuth0();
 
@@ -28,25 +43,29 @@ function Content() {
     const getAllContent = () => {
         Axios({
             method: "GET",
-            url: `${SERVER_URL}/content`,
+            url: `${SERVER_URL}/content/Category/${prop.category}`,
             headers: {
                 "Content-Type": "application/json"
             }
         }).then(res => {
-            console.log(res)
+            console.log("res value ",res)
             if (res.status === 200) {
+                console.log("re rendering")
                 // Cheap way to get the latest posts on top.
                 // Potentially think of something more fancy like sorting by date explicitly.
                 setContent(res.data.reverse());
             }
+        }).catch(error=>{
+            console.log("getting an error ",error)
         });
+        // console.log("dsahdjasda ", `${SERVER_URL}/content/${NewCategoryContent}`)
     }
 
     useEffect(() => {
         // call server and return content objects
         getAllContent();
         console.log(content)
-    }, [])
+    }, [prop.category])
 
     useEffect(() => {
         if (!isLoading){
@@ -68,7 +87,8 @@ function Content() {
             userId: userId,
             username: userName,
             contentTitle: contentTitle,
-            contentBody: contentBody
+            contentBody: contentBody,
+            contentCategory: postCategory
         }
         if (imageLink !== null && imageLink !== "") {
             newContent.imageLink = imageLink;
@@ -154,6 +174,9 @@ function Content() {
 
     }
 
+    function selectDropDown(e){
+        setPostCategory(e.target.value)
+    }
 
 
     return (
@@ -197,6 +220,19 @@ function Content() {
                             name="imageLink"
                         />
                         <br />
+                                    
+                        <select
+                            className="post-input-field"
+                            onChange = {selectDropDown}
+                            value = {postCategory}
+                        >
+                            <option  value="Cat">Cat</option>
+                            <option  value="Dog">Dog</option>
+                            <option  value="Food">Food</option>
+                        </select>
+
+                        <br />        
+
 
                         <input className="post-submit" type="submit" value="PUBLISH" />
 
@@ -214,7 +250,7 @@ function Content() {
                             <span>by: </span> <a href="">{post.username}</a>
 
                             <h2> <span onClick={() => likePost(post._id, post.likes, index, post.likedByUsers)}>{likeButtonRenderer(post.likedByUsers)}</span> {post.likes}</h2>
-
+                            <h3>Content Category: {post.contentCategory}</h3>
                             <p>
                                 {post.contentBody}
                             </p>
