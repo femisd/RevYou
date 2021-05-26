@@ -1,5 +1,7 @@
+import React, { useState, useEffect } from "react";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {setSpecificCategory} from "./components/content/Content"
 import Content from './components/content/Content';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import AuthenticationButton from './components/authentication/authentication-button';
@@ -12,6 +14,9 @@ import {
 } from "react-router-dom";
 
 function App() {
+
+const [selectCat,SetSelectCat] = useState("");
+
   return (
     <Router>
       <div className="App">
@@ -29,6 +34,11 @@ function App() {
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                 </NavDropdown>
+                <NavDropdown title="Category" id="collasible-nav-dropdown">
+                  <NavDropdown.Item value = "cat" onClick={() => SetSelectCat("cat")} >Cat</NavDropdown.Item>
+                  <NavDropdown.Item onClick={() => SetSelectCat("dog")} >Dog</NavDropdown.Item>
+                  <NavDropdown.Item  onClick={() => SetSelectCat("food")}>Food</NavDropdown.Item>
+                </NavDropdown>
               </Nav>
               <Nav>
                 <Nav.Link href="/profile"><img className="nav-profile-pic" src="https://www.greekpaints.com/wp-content/uploads/2017/12/profile-photo-placeholder.png" alt="prof" /></Nav.Link>
@@ -44,7 +54,7 @@ function App() {
             <Profile />
           </Route>
           <Route path="/">
-            <Content />
+            <Content category={selectCat}/>
           </Route>
 
         </Switch>

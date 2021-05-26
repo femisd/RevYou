@@ -4,7 +4,19 @@ import './Content.css'
 import Rodal from 'rodal';
 import 'rodal/lib/rodal.css';
 
-function Content() {
+export var setSpecificCategory = (e,data) => {
+        
+        e.preventDefault();
+        e.persist()
+        var tempcat= e.currentTarget.value
+        //  console.log("name is  ", tempcat)
+        //  console.log(e.target.value)
+         console.log(data)
+        this.setNewContent(data)
+        
+    };
+
+function Content(prop) {
     // content state from fetch
     const [content, setContent] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
@@ -18,33 +30,38 @@ function Content() {
     const [contentTitle, setContentTitle] = useState("");
     const [contentBody, setContentBody] = useState("");
     const [imageLink, setImageLink] = useState(null);
+    // const [NewCategoryContent,setNewContent] = useState("Category");
 
-
-
+ 
 
     const getAllContent = () => {
         Axios({
             method: "GET",
-            url: `${SERVER_URL}/content`,
+            url: `${SERVER_URL}/content/Category/${prop.category}`,
             headers: {
                 "Content-Type": "application/json"
             }
         }).then(res => {
-            console.log(res)
+            console.log("res value ",res)
             if (res.status === 200) {
+                console.log("re rendering")
                 // Cheap way to get the latest posts on top.
                 // Potentially think of something more fancy like sorting by date explicitly.
                 setContent(res.data.reverse());
             }
+        }).catch(error=>{
+            console.log("getting an error ",error)
         });
+        // console.log("dsahdjasda ", `${SERVER_URL}/content/${NewCategoryContent}`)
     }
 
     useEffect(() => {
         // call server and return content objects
         getAllContent();
         console.log(content)
-    }, [])
+    }, [prop.category])
 
+    
 
     const show = () => setModalVisible(true);
     const hide = () => setModalVisible(false);

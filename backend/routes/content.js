@@ -5,6 +5,7 @@ const contentModel = require('../models/content');
 //  Getting all content
 router.get('/', async (req, res) => {
     try {
+        console.log("dsajdsaddaskjdnsajda")
         const content = await contentModel.find()
         res.status(200).json(content)
     } catch (err) {
@@ -13,10 +14,26 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/Category/:SelectedCat', async (req, res) => {
+    try {
+        console.log("in the category")
+        console.log(req.params.SelectedCat)
+        const content = await contentModel.find()
+        res.status(200).json(content)
+    } catch (err) {
+        // RIP... server has died
+        console.log("server ded")
+        res.status(500).json({ message: err.message })
+    }
+});
+
 // Getting one content
 router.get('/:id', getContent, async (req, res) => {
+    console.log("id being called")
     res.status(200).json(res.content)
 });
+
+
 
 // Creating new content
 router.post('/', async (req, res) => {
