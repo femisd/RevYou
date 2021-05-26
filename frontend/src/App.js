@@ -1,5 +1,7 @@
+import React, { useState, useEffect } from "react";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {setSpecificCategory} from "./components/content/Content"
 import Content from './components/content/Content';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import AuthenticationButton from './components/authentication/authentication-button';
@@ -13,6 +15,9 @@ import {
 } from "react-router-dom";
 
 function App() {
+
+const [selectCat,SetSelectCat] = useState("");
+
   return (
     <Router>
       <div className="App">
@@ -27,7 +32,7 @@ function App() {
             <Profile />
           </Route>
           <Route path="/">
-            <Content />
+            <Content category={selectCat}/>
           </Route>
 
         </Switch>
