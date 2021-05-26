@@ -2,9 +2,9 @@ import { NavLink } from "react-router-dom";
 import React, {useState} from "react";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import './nav.css'
+import {CategoryStore} from "../../CategoryStore" 
 
 const MainNav = () => {
-    const [selectedCategory, setSelectedCategory] = useState();
 
     return(
     <>
@@ -14,13 +14,14 @@ const MainNav = () => {
                 exact
                 className="nav-link nav-text ml-auto"
                 activeClassName="router-link-exact-active"
+                onClick={() => CategoryStore.update(s => {s.category = ""})}
             > Home
             </NavLink>
 
             <NavDropdown title="Category" id="collasible-nav-dropdown">
-                <NavDropdown.Item value="cat" onClick={() => setSelectedCategory("cat")} >Cat</NavDropdown.Item>
-                <NavDropdown.Item onClick={() => setSelectedCategory("dog")} >Dog</NavDropdown.Item>
-                <NavDropdown.Item onClick={() => setSelectedCategory("food")}>Food</NavDropdown.Item>
+                <NavDropdown.Item value="cat" onClick={() => CategoryStore.update(s => {s.category = "Cat"})} >Cat</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => CategoryStore.update(s => {s.category = "Dog"})} >Dog</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => CategoryStore.update(s => {s.category = "Food"})}>Food</NavDropdown.Item>
             </NavDropdown>
         </div>
 

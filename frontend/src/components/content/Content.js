@@ -4,6 +4,7 @@ import './Content.css'
 import Rodal from 'rodal';
 import 'rodal/lib/rodal.css';
 import { useAuth0 } from "@auth0/auth0-react";
+import { CategoryStore } from '../../CategoryStore'
 
 export var setSpecificCategory = (e,data) => {
         
@@ -17,7 +18,7 @@ export var setSpecificCategory = (e,data) => {
         
     };
 
-function Content(prop) {
+function Content() {
     // content state from fetch
     const [content, setContent] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
@@ -36,6 +37,8 @@ function Content(prop) {
     // const [NewCategoryContent,setNewContent] = useState("Category");
 
     const { user, isAuthenticated, isLoading } = useAuth0();
+    
+    const category = CategoryStore.useState(state => state.category)
 
 
 
@@ -43,12 +46,11 @@ function Content(prop) {
     const getAllContent = () => {
         Axios({
             method: "GET",
-            url: `${SERVER_URL}/content/Category/${prop.category}`,
+            url: `${SERVER_URL}/content/`,
             headers: {
                 "Content-Type": "application/json"
             }
         }).then(res => {
-            console.log("res value ",res)
             if (res.status === 200) {
                 console.log("re rendering")
                 // Cheap way to get the latest posts on top.
@@ -61,11 +63,38 @@ function Content(prop) {
         // console.log("dsahdjasda ", `${SERVER_URL}/content/${NewCategoryContent}`)
     }
 
+
+    const getAllContentInCategory = () => {
+        Axios({
+            method: "GET",
+            url: `${SERVER_URL}/content/Category/${category}`,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(res => {
+            console.log("cat: ",category)
+            if (res.status === 200) {
+                console.log("re rendering")
+                setContent(res.data.reverse());
+            }
+        }).catch(error=>{
+            console.log("getting an error ",error)
+        });
+        // console.log("dsahdjasda ", `${SERVER_URL}/content/${NewCategoryContent}`)
+    }
+
     useEffect(() => {
         // call server and return content objects
         getAllContent();
-        console.log(content)
-    }, [prop.category])
+    }, [])
+
+    useEffect(() => {
+        if (category === ""){
+            getAllContent();
+        } else{
+            getAllContentInCategory();
+        }
+    }, [category])
 
     useEffect(() => {
         if (!isLoading){
