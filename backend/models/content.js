@@ -16,7 +16,12 @@ const contentSchema = new mongoose.Schema({
         required: true
     },
 
-    contentBody: {
+    contentTitle: {
+        type: String,
+        required: true
+    },
+
+    contentCategory: {
         type: String,
         required: true
     },

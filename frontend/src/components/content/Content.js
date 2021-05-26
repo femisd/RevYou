@@ -18,7 +18,19 @@ export var setSpecificCategory = (e,data) => {
         
     };
 
-function Content() {
+export var setSpecificCategory = (e,data) => {
+        
+        e.preventDefault();
+        e.persist()
+        var tempcat= e.currentTarget.value
+        //  console.log("name is  ", tempcat)
+        //  console.log(e.target.value)
+         console.log(data)
+        this.setNewContent(data)
+        
+    };
+
+function Content(prop) {
     // content state from fetch
     const [content, setContent] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
