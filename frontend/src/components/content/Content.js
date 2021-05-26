@@ -3,6 +3,7 @@ import Axios from "axios";
 import './Content.css'
 import Rodal from 'rodal';
 import 'rodal/lib/rodal.css';
+import { useAuth0 } from "@auth0/auth0-react";
 
 export var setSpecificCategory = (e,data) => {
         
@@ -24,15 +25,18 @@ function Content(prop) {
 
     // Form states
     // Use defaults until user database is implemented
-    const [userId, setUserId] = useState(-2);
-    const [userName, setUserName] = useState("Guest");
+    const [userId, setUserId] = useState();
+    const [userName, setUserName] = useState();
 
     const [contentTitle, setContentTitle] = useState("");
     const [contentBody, setContentBody] = useState("");
     const [imageLink, setImageLink] = useState(null);
     // const [NewCategoryContent,setNewContent] = useState("Category");
 
- 
+    const { user, isAuthenticated, isLoading } = useAuth0();
+
+
+
 
     const getAllContent = () => {
         Axios({
@@ -61,12 +65,22 @@ function Content(prop) {
         console.log(content)
     }, [prop.category])
 
-    
+    useEffect(() => {
+        if (!isLoading){
+            if (isAuthenticated){
+                setUserId(user.sub)
+                setUserName(user.nickname)
+            }
+        }
+    }, [isAuthenticated])
+
 
     const show = () => setModalVisible(true);
     const hide = () => setModalVisible(false);
 
-    const postContent = () => {
+    const postContent = (event) => {
+        // event.preventDefault();
+        hide();
         let newContent = {
             userId: userId,
             username: userName,
@@ -95,16 +109,76 @@ function Content(prop) {
             .catch(error => {
                 console.log(error.response)
             });;
+    }
 
+
+    const likePost = (id, likes, index, likedByUsers) => {
+        if (isAuthenticated && !isLoading){
+
+            let updatedLikedByUsers = likedByUsers;
+            let likeModifier = 0
+
+
+            if(!likedByUsers.includes(userId)){
+                updatedLikedByUsers = [...likedByUsers, userId];
+                likeModifier = 1;
+                console.log("like added")
+            } else{
+                console.log("should it remove?", likedByUsers.includes(userId))
+                console.log("like remove", likedByUsers)
+                updatedLikedByUsers = likedByUsers.filter(id => id !== userId)
+                console.log("should have removed now", updatedLikedByUsers)
+                likeModifier = -1;
+            }
+
+            console.log(likeModifier, updatedLikedByUsers)
+
+            Axios.patch(`${SERVER_URL}/content/${id}`, { likes: likes + likeModifier, likedByUsers: updatedLikedByUsers }, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(res => {
+                    console.log(res);
+                    if (res.status === 200) {
+                        console.log("old", likedByUsers)
+                        console.log("new", updatedLikedByUsers)
+                        setContent(content => ([...content, content[index].likes += likeModifier]))
+                        setContent(content => ([...content, content[index].likedByUsers = updatedLikedByUsers]))
+    
+                    }
+                })
+                .catch(error => {
+                    console.log(error.response)
+                });
+        }
+    }
+
+    const likeButtonRenderer = (userList) => {
+        let button = null;
+        if (!isLoading && isAuthenticated){
+            console.log("btn users", userList)
+            if (userList){
+                if (userList.includes(userId)){
+                    button = <span className="like-btn">❤️</span>
+                } else {
+                    button = <span className="like-btn">🤍</span>
+                }
+            }
+        }
+        
+        return button;
 
     }
 
+
+
     return (
-        <div style={{paddingTop: "60px" }}>
+    <div style={{ display: "flex", justifyItems: 'center', flexFlow: "column", paddingTop: "80px" }}>
             <Rodal visible={modalVisible} onClose={() => hide()} animation="rotate" width={900} height={700}>
                 <div>
 
-                    <form onSubmit={() => postContent()}>
+                    <form onSubmit={postContent}>
                         <input
                             className="post-input-field"
                             value={contentTitle}
@@ -148,24 +222,29 @@ function Content(prop) {
             </Rodal>
 
             {content.map((post, index) => (
-                <div className="content-container">
-                    {/* main content */}
-                    <div>
-                        <h2>{post.contentTitle}</h2>
-                        {/* TODO: add link to user profile once user db is setup */}
-                        <span>by: </span> <a href="">{post.username}</a>
-                        <p>
-                            {post.contentBody}
-                        </p>
-                        {post.imageLink ? <img className="content-img" src={post.imageLink} alt="image"/> : null}
-                        {/* TODO: convert to readable date formatter */}
-                        <span className="date-span">{post.postDate}</span>
-                        {/* <h2>{post.likes}</h2> */}
+                <div className="container-border">
+                    <div className="content-container">
+                        {/* main content */}
+                        <div>
+                            <h2>{post.contentTitle}</h2>
+                            {/* TODO: add link to user profile once user db is setup */}
+                            <span>by: </span> <a href="">{post.username}</a>
+
+                            <h2> <span onClick={() => likePost(post._id, post.likes, index, post.likedByUsers)}>{likeButtonRenderer(post.likedByUsers)}</span> {post.likes}</h2>
+
+                            <p>
+                                {post.contentBody}
+                            </p>
+                            {post.imageLink ? <img className="content-img" src={post.imageLink} alt="image" /> : null}
+                            {/* TODO: convert to readable date formatter */}
+                            <span className="date-span">{post.postDate}</span>
+                            
+                        </div>
                     </div>
                 </div>)
             )}
 
-            <div className="new-post-btn" onClick={() => show()}>📝 CREATE NEW POST</div>
+            { isAuthenticated ? <div className="new-post-btn" onClick={() => show()}>📝 CREATE NEW POST</div> : null}
         </div>
     );
 

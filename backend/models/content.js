@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const contentSchema = new mongoose.Schema({
     userId: {
-        type: Number,
+        type: String,
         required: true
     },
 
@@ -35,7 +35,13 @@ const contentSchema = new mongoose.Schema({
     likes: {
         type: Number,
         required: true,
-        default: 1
+        default: 0
+    },
+
+    likedByUsers: {
+        type: Array,
+        required: true,
+        default: []
     }
 });
 
