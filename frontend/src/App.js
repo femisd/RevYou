@@ -6,6 +6,7 @@ import Content from './components/content/Content';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import AuthenticationButton from './components/authentication/authentication-button';
 import Profile from "./components/profile/profile";
+import NavBar from './components/nav/NavBar';
 import {
   BrowserRouter as Router,
   Switch,
@@ -22,6 +23,9 @@ const [selectCat,SetSelectCat] = useState("");
       <div className="App">
 
         <div>
+<<<<<<< HEAD
+          <NavBar />
+=======
           <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
             <Navbar.Brand href="/">WEB-APP</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -46,6 +50,7 @@ const [selectCat,SetSelectCat] = useState("");
               </Nav>
             </Navbar.Collapse>
           </Navbar>
+>>>>>>> fc602b413da69f29ca5ff06c8bd1dfb985008557
           <hr className="nav-line" />
         </div>
 

@@ -1,0 +1,11 @@
+.nav-container{
+    min-width: 100%;
+    margin-top: 0;
+    z-index: 2;
+    position: fixed;
+    background-color: #d1d8eca2;
+}
+
+.nav-text{
+    font-size: large;
+}

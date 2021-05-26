@@ -14,6 +14,14 @@ router.get('/', async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
+router.get('/Category/:SelectedCat', getContentByCategory, async (req, res) => {
+    try {
+        res.status(200).json(res.content)
+    } catch (err) {
+        // RIP... server has died
+        console.log("error returning posts with selected categories")
+=======
 router.get('/Category/:SelectedCat', async (req, res) => {
     try {
         console.log("in the category")
@@ -23,6 +31,7 @@ router.get('/Category/:SelectedCat', async (req, res) => {
     } catch (err) {
         // RIP... server has died
         console.log("server ded")
+>>>>>>> fc602b413da69f29ca5ff06c8bd1dfb985008557
         res.status(500).json({ message: err.message })
     }
 });
@@ -80,6 +89,10 @@ router.patch('/:id', getContent, async (req, res) => {
         res.content.likedByUsers = req.body.likedByUsers
     }
 
+    if (req.body.contentCategory != null){ 
+        res.content.contentCategory = req.body.contentCategory
+    }
+
     try {
         const updatedContent = await res.content.save()
         res.status(200).json(updatedContent)
@@ -113,6 +126,25 @@ async function getContent(req, res, next) {
         if (content == null) {
             // ID did not match
             return res.status(404).json({ message: 'Cannot find content by provided ID' })
+        }
+    } catch (err) {
+        return res.status(500).json({ message: err.message })
+    }
+
+    res.content = content;
+    next();
+}
+
+
+async function getContentByCategory(req, res, next) {
+    let content;
+    try {
+        // 
+        // console.log(req.params.SelectedCat)
+        content = await contentModel.find({contentCategory: req.params.SelectedCat})
+        if (content == null) {
+            // ID did not match
+            return res.status(404).json({ message: 'Cannot find content by provided category' })
         }
     } catch (err) {
         return res.status(500).json({ message: err.message })

@@ -26,6 +26,11 @@ const contentSchema = new mongoose.Schema({
         required: true
     },
 
+    contentCategory: {
+        type: String,
+        required: true
+    },
+
     imageLink: {
         type: String,
         required: false
