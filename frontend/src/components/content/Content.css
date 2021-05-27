@@ -46,9 +46,9 @@
 }
 
 .content-img{
-    margin: 1%;
-    width: 60%;
-    height: 60%;
+    margin-bottom: 20px;
+    width: 500px;
+    object-fit: contain;
     border-radius: 3px;
 }
 
@@ -62,7 +62,7 @@
     background-color: rgb(26, 148, 87);
     position: fixed;
     bottom: 0;
-    right: 0;
+    left: 0;
     z-index: 1;
     border-radius: 45px;
     cursor: pointer;
@@ -104,6 +104,27 @@
     cursor: pointer;
 
 }
+
+
+.content-main{
+    display: inline-block;
+    max-width: 60%;
+    text-align: left;
+    padding: 30px;
+    margin: 15px;
+    vertical-align: top;
+}
+
+.content-chat{
+    display: inline-block;
+    max-width: 50%;
+    text-align: left;
+    padding: 30px;
+    margin: 15px;
+    position: fixed ;
+}
+
+
 
 @keyframes gradient {
 	0% {
