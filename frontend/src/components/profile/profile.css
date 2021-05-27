@@ -57,8 +57,9 @@
 }
 
 .prof-edit-text{
-    width: 50%;
-    overflow:scroll;
+    width:58vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .card-li{
