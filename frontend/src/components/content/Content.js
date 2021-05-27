@@ -6,17 +6,6 @@ import 'rodal/lib/rodal.css';
 import { useAuth0 } from "@auth0/auth0-react";
 import { CategoryStore } from '../../CategoryStore'
 
-export var setSpecificCategory = (e,data) => {
-        
-        e.preventDefault();
-        e.persist()
-        var tempcat= e.currentTarget.value
-        //  console.log("name is  ", tempcat)
-        //  console.log(e.target.value)
-         console.log(data)
-        this.setNewContent(data)
-        
-    };
 
 export var setSpecificCategory = (e,data) => {
         
