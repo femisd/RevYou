@@ -2,5 +2,6 @@
 #Supper secret env file...
 #backend/.env
 
-backend/node_modules
+content_service/node_modules
 frontend/node_modules
+messaging_service/node_modules
