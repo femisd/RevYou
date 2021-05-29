@@ -80,7 +80,6 @@ function Content(prop) {
         }).catch(error => {
             console.log("getting an error ", error)
         });
-        // console.log("dsahdjasda ", `${SERVER_URL}/content/${NewCategoryContent}`)
     }
 
     useEffect(() => {

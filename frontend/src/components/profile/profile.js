@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import './profile.css'
 import { useAuth0 } from "@auth0/auth0-react";
 import EdiText from 'react-editext'
+import Axios from "axios";
+
 function Profile() {
 
 
@@ -15,6 +17,7 @@ function Profile() {
 
     const [editing, setEditing] = useState(false);
     const [value, setValue] = useState("Tell us a bit about yourself...");
+    const SERVER_URL = "http://localhost:4100"
 
     useEffect(() => {
         if (!isLoading) {
@@ -25,15 +28,52 @@ function Profile() {
                     setUserName(user.nickname);
                     setProfilePic(user.picture)
                     setUserEmail(user.name);
+                    fetchBio();
                 }
             }
         }
     }, [isAuthenticated])
 
     const handleSave = (value) => {
-        console.log(value);
+        updateBio(value);
         setValue(value);
-      };
+    };
+
+
+    const fetchBio = () => {
+        Axios({
+            method: "GET",
+            url: `${SERVER_URL}/profile/${user.sub}`,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(res => {
+            if (res.status === 200) {
+                setValue(res.data.userBio)
+            }
+        }).catch(error => {
+            console.log("No bio was found, default bio will be used")
+        });
+
+    }
+
+    const updateBio = (value) => {
+        if (isAuthenticated && ! isLoading){
+            Axios.put(`${SERVER_URL}/profile/${user.sub}`, { userId: user.sub , userBio: value }, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(res => {
+                    if (res.status === 200) {
+                       console.log(" bio saved as: ", res.data)
+                    }
+                })
+                .catch(error => {
+                    console.log(error.response)
+                });
+        }
+    }
 
     return (
 
@@ -53,12 +93,12 @@ function Profile() {
                                         <h1> {userName} </h1>
                                         <h2> {userEmail} </h2>
                                         <div className="prof-edit-text">
-                                        <EdiText
-                                            value={value}
-                                            type="text"
-                                            onSave={handleSave}
-                                            editing={editing}
-                                        />
+                                            <EdiText
+                                                value={value}
+                                                type="text"
+                                                onSave={handleSave}
+                                                editing={editing}
+                                            />
                                         </div>
                                     </div>
 

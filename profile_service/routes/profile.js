@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/Category/:userId', getProfileByUserId, async (req, res) => {
+router.get('/:userId', getProfileByUserId, async (req, res) => {
     try {
         res.status(200).json(res.profile)
     } catch (err) {
@@ -43,7 +43,7 @@ router.post('/', async (req, res) => {
 
 
 // Updating profile
-router.patch('/:id', getProfile, async (req, res) => {
+router.put('/:userId', getProfileByUserId, async (req, res) => {
     if (req.body.userId != null) {
         res.profile.userId = req.body.userId
     }
@@ -55,8 +55,22 @@ router.patch('/:id', getProfile, async (req, res) => {
     try {
         const updatedProfile = await res.profile.save()
         res.status(200).json(updatedProfile)
+
+        // if the profile is unregistered, create a new entry for the profile.
     } catch (err) {
-        res.status(400).json({message: err.message})
+        const profile = new profileModel({
+            userId: req.body.userId,
+            userBio: req.body.userBio
+        });
+
+        try {
+            const newProfile = await profile.save();
+            res.status(200).json(newProfile)
+        } catch (err) {
+            // Failed because of bad data.
+            res.status(400).json({ message: err.message })
+        }
+
     }
 });
 
@@ -92,12 +106,10 @@ async function getProfile(req, res, next) {
 async function getProfileByUserId(req, res, next) {
     let profile;
     try {
-        // 
-        // console.log(req.params.SelectedCat)
-        profile = await profileModel.find({profileCategory: req.params.SelectedCat})
+        profile = await profileModel.findOne({userId: req.params.userId})
         if (profile == null) {
             // ID did not match
-            return res.status(404).json({ message: 'Cannot find profile by provided category' })
+            return res.status(404).json({ message: 'Cannot find profile by provided userID' })
         }
     } catch (err) {
         return res.status(500).json({ message: err.message })
