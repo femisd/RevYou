@@ -17,7 +17,7 @@ function Profile() {
 
     const [editing, setEditing] = useState(false);
     const [value, setValue] = useState("Tell us a bit about yourself...");
-    const SERVER_URL = "http://localhost:4100"
+    const SERVER_URL = "https://g9-profile-service.herokuapp.com"
 
     useEffect(() => {
         if (!isLoading) {
