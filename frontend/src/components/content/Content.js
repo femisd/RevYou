@@ -24,7 +24,7 @@ function Content() {
     // content state from fetch
     const [content, setContent] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
-    const SERVER_URL = "http://localhost:4000"
+    const SERVER_URL = "https://g9-content-service.herokuapp.com"
 
     // Form states
     // Use defaults until user database is implemented
