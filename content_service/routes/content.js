@@ -40,7 +40,10 @@ router.post('/', async (req, res) => {
         contentTitle: req.body.contentTitle,
         contentBody: req.body.contentBody,
         imageLink: req.body.imageLink,
-        contentCategory: req.body.contentCategory
+        contentCategory: req.body.contentCategory,
+        rating: req.body.rating,
+        productLink: req.body.productLink,
+        lengthOfUse: req.body.lengthOfUse
     });
 
     try {
@@ -78,6 +81,18 @@ router.patch('/:id', getContent, async (req, res) => {
 
     if (req.body.contentCategory != null){ 
         res.content.contentCategory = req.body.contentCategory
+    }
+
+    if (req.body.rating != null){
+        res.content.rating = req.body.rating
+    }
+
+    if (req.body.productLink != null){
+        res.content.productLink = req.body.productLink
+    }
+
+    if (req.body.lengthOfUse != null){
+        res.content.lengthOfUse = req.body.lengthOfUse
     }
 
     try {

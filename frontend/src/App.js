@@ -16,8 +16,6 @@ import {
 
 function App() {
 
-const [selectCat,SetSelectCat] = useState("");
-
   return (
     <Router>
       <div className="App">
@@ -32,7 +30,7 @@ const [selectCat,SetSelectCat] = useState("");
             <Profile />
           </Route>
           <Route path="/">
-            <Content category={selectCat}/>
+            <Content/>
           </Route>
 
         </Switch>

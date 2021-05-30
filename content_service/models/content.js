@@ -47,7 +47,24 @@ const contentSchema = new mongoose.Schema({
         type: Array,
         required: true,
         default: []
+    },
+    
+    rating: {
+        type: mongoose.Types.Decimal128,
+        required: true,
+        default: 0.0
+    }, 
+
+    productLink: {
+        type: String,
+        required: true
+    },
+
+    lengthOfUse: {
+        type: String,
+        required: true 
     }
+
 });
 
 module.exports = mongoose.model('Content', contentSchema);
