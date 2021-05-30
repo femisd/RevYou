@@ -64,7 +64,7 @@
     height: 40px;
     font-size: 20px;
     font-weight: 600;
-    color: black;
+    color: white;
     background-color: #036fd4;
     border: none;
     resize: none;
@@ -75,7 +75,7 @@
 }
 
 .send-message-button:hover {
-    color: red;
+    color: lightskyblue;
   }
 
 

@@ -6,7 +6,7 @@ import 'rodal/lib/rodal.css';
 import { useAuth0 } from "@auth0/auth0-react";
 import { CategoryStore } from '../../CategoryStore'
 import ChatRoom from "../chat/Chat";
-
+import ReactStars from "react-rating-stars-component";
 
 export var setSpecificCategory = (e, data) => {
 
@@ -20,7 +20,7 @@ export var setSpecificCategory = (e, data) => {
 
 };
 
-function Content(prop) {
+function Content() {
     // content state from fetch
     const [content, setContent] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
@@ -34,7 +34,10 @@ function Content(prop) {
     const [contentTitle, setContentTitle] = useState("");
     const [contentBody, setContentBody] = useState("");
     const [imageLink, setImageLink] = useState(null);
-    const [postCategory, setPostCategory] = useState("Cat");
+    const [postCategory, setPostCategory] = useState("Computers");
+    const [rating, setRating] = useState(0.0);
+    const [lengthOfUse, setLengthOfUse] = useState("less than a week");
+    const [productLink, setProductLink] = useState("")
 
     // const [NewCategoryContent,setNewContent] = useState("Category");
 
@@ -57,6 +60,7 @@ function Content(prop) {
                 // Cheap way to get the latest posts on top.
                 // Potentially think of something more fancy like sorting by date explicitly.
                 setContent(res.data.reverse());
+                console.log(res.data)
             }
         }).catch(error => {
             console.log("getting an error ", error)
@@ -116,6 +120,9 @@ function Content(prop) {
             username: userName,
             contentTitle: contentTitle,
             contentBody: contentBody,
+            rating: rating,
+            productLink: productLink,
+            lengthOfUse, lengthOfUse,
             contentCategory: postCategory
         }
         if (imageLink !== null && imageLink !== "") {
@@ -193,13 +200,21 @@ function Content(prop) {
 
     }
 
+    const ratingChanged = ratingVal => {
+        setRating(ratingVal);
+    }
+
+    const selectLengthOfUse = e => {
+        setLengthOfUse(e.target.value)
+    }
+
     function selectDropDown(e) {
         setPostCategory(e.target.value)
     }
 
     return (
         <div style={{ display: "flex", justifyItems: 'center', flexFlow: "column", paddingTop: "80px" }}>
-            <Rodal visible={modalVisible} onClose={() => hide()} animation="rotate" width={900} height={700}>
+            <Rodal visible={modalVisible} onClose={() => hide()} animation="rotate" width={900} height={910}>
                 <div>
 
                     <form onSubmit={postContent}>
@@ -217,9 +232,9 @@ function Content(prop) {
                         <textarea
                             value={contentBody}
                             className="post-text-area"
-                            rows="16"
+                            rows="11"
                             cols="100"
-                            maxlength="2000"
+                            maxLength="2000"
                             onChange={e => setContentBody(e.target.value)}
                             placeholder="Your new post goes here..."
                             type="text"
@@ -239,14 +254,65 @@ function Content(prop) {
                         />
                         <br />
 
+                        <ReactStars
+                            classNames="rating-box"
+                            count={5}
+                            onChange={ratingChanged}
+                            size={30}
+                            activeColor="#eb4034"
+                            value={rating}
+                            edit={true}
+                            isHalf={true}
+                        />
+                        <br />
+
+                        <select
+                            className="post-input-field"
+                            onChange={selectLengthOfUse}
+                            value={lengthOfUse}
+                        >
+                            <option value="less than a week">Less than a week</option>
+                            <option value="about a week">About a week</option>
+                            <option value="about a month">About a month</option>
+                            <option value="about 6 months">About six months</option>
+                            <option value="about a year">About a year</option>
+                            <option value="over 2 years">Over 2 years</option>
+                            <option value="over 5 years">Over 5 years</option>
+
+
+                        </select>
+                        <br />
+
+                        <input
+                            value={productLink}
+                            className="post-input-field"
+                            onChange={e => setProductLink(e.target.value)}
+                            placeholder="Pase the link to the product or service"
+                            type="text"
+                            name="productLink"
+                        />
+                        <br />
+
                         <select
                             className="post-input-field"
                             onChange={selectDropDown}
                             value={postCategory}
                         >
-                            <option value="Cat">Cat</option>
-                            <option value="Dog">Dog</option>
+                            <option value="Computers">Computers</option>
+                            <option value="Electronics">Electronics</option>
                             <option value="Food">Food</option>
+                            <option value="Music">Music</option>
+                            <option value="Art">Art</option>
+                            <option value="Film">Film</option>
+                            <option value="Gaming">Gaming</option>
+                            <option value="Travel">Travel</option>
+                            <option value="Pets">Pets</option>
+                            <option value="Fashion">Fashion</option>
+                            <option value="Cars">Cars</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Toys">Toys</option>
+                            <option value="Home">Home</option>
+
                         </select>
 
                         <br />
@@ -265,16 +331,36 @@ function Content(prop) {
                                 {/* main content */}
                                 <div>
                                     <h2>{post.contentTitle}</h2>
-                                    {/* TODO: add link to user profile once user db is setup */}
-                                    <span>by: </span> <a href="">{post.username}</a>
 
-                                    <h2> <span onClick={() => likePost(post._id, post.likes, index, post.likedByUsers)}>{likeButtonRenderer(post.likedByUsers)}</span> {post.likes}</h2>
-                                    <h3>Content Category: {post.contentCategory}</h3>
                                     <p>
                                         {post.contentBody}
                                     </p>
+
+                                    <p>Been using for {post.lengthOfUse}</p>
+
+                                    <div className="rating-container">
+                                    <ReactStars
+                                        classNames="rating-box"
+                                        count={5}
+                                        size={30}
+                                        activeColor="#ff2652"
+                                        value={post.rating.$numberDecimal}
+                                        edit={false}
+                                        isHalf={true}
+                                    />
+                                    </div>
+                                    {/* TODO: add link to user profile once user db is setup */}
+                                    <span>by: </span> <b>{post.username}</b>           
+
+                                    <div className="content-img-container">
                                     {post.imageLink ? <img className="content-img" src={post.imageLink} alt="image" /> : null}
-                                    {/* TODO: convert to readable date formatter */}
+                                    </div>
+
+                                    <h2 className="like-wrapper"> <span onClick={() => likePost(post._id, post.likes, index, post.likedByUsers)}>{likeButtonRenderer(post.likedByUsers)}</span> {post.likes}</h2>
+                                    <br />
+                                    <a className="prod-btn-holder" target="_blank" href={post.productLink}><div className="product-link-btn">🛒 Available Here</div></a><br/>
+                                    <br />
+                                    <p>Category: {post.contentCategory}</p>
                                     <span className="date-span">{post.postDate}</span>
 
                                 </div>
