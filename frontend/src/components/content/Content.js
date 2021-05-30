@@ -344,7 +344,7 @@ function Content() {
                                         count={5}
                                         size={30}
                                         activeColor="#ff2652"
-                                        value={post.rating.$numberDecimal}
+                                        value={post.rating ? post.rating.$numberDecimal : 0.0}
                                         edit={false}
                                         isHalf={true}
                                     />
